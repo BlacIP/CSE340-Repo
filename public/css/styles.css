@@ -4,3 +4,197 @@
 *:after {
   box-sizing: border-box;
 }
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  background-color: #fff;
+  
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 10px;
+}
+
+nav{
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+#top-header{
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  padding: 0 10px;
+}
+#top-header a{
+  color: #333;
+  text-decoration: none;
+}
+
+.siteName{
+  font-size: 30px;
+  font-weight: bold;
+}
+nav ul li{
+  color: #fff;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul li {
+  margin: 0 1rem;
+}
+
+#intro, #reviews, #upgrades {
+  padding: 10px;
+  text-align: center;
+}
+
+#intro{
+  margin: 10px 0;
+}
+
+#intro h2{
+  text-align: left;
+  margin:0 0 20px 0;
+}
+#feature-car {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#feature-car picture {
+  width: 100%;
+  height: auto;
+}
+
+#feature-car picture img{
+  width: 80%;
+}
+
+.car-details {
+  display: grid;
+  text-align: left;
+  position: absolute;
+  gap: 5px;
+  background-color: #ffffff99;
+  top: 20%;
+  color:  cornflowerblue;
+}
+
+.car-details h3, p{
+  margin: 0;
+}
+
+.car-details img{
+  width: 40%;
+}
+
+#reviews h2, #upgrades h2{
+  margin: 0;
+  text-align: left;
+}
+#reviews ul{
+  text-align: left;
+  padding-left: 20px;
+}
+
+#reviews li{
+  margin-bottom: 20px;
+}
+
+.upgrades-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 20px;
+}
+
+.upgrade-item{
+  background: cornflowerblue;
+  border: solid black 1px;
+  padding: 10px;
+  height: 100px;
+}
+
+footer{
+  padding: 10px;
+}
+
+
+@media screen and (min-width: 768px) {
+  #feature-car {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .car-details {
+    margin-left: 2rem;
+  }
+
+  .upgrades-grid {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+
+  body{
+    margin: 100px 0 ;
+    background-image: url('/images/site/checkerboard.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: repeat;
+  }
+  #wrapper {
+    width: 40%;
+    margin: 0 auto;
+    border: solid 5px cornflowerblue;
+    border-radius: 10px;
+    min-height: min-content;
+    background-color: #fff;
+  }
+
+  .car-details {
+    top: 30%;
+    width: 300px;
+  }
+
+  nav ul {
+    justify-content: space-around;
+  }
+
+  .web-brake{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .upgrades-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  #reviews {
+    order: 2;
+  }
+
+  #upgrades {
+    order: 1;
+  }
+  main{
+    margin-bottom: 20px;
+  }
+}
