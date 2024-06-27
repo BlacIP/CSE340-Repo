@@ -4,6 +4,9 @@
 *:after {
   box-sizing: border-box;
 }
+a{
+  text-decoration: none;
+}
 
 body {
   font-family: Arial, sans-serif;
@@ -45,6 +48,15 @@ nav{
 }
 nav ul li{
   color: #fff;
+  margin: 0 .8rem;
+}
+nav ul li a{
+  text-decoration: none;
+  color: #fff;
+}
+
+nav ul li a:hover{
+  color: #190fd9;
 }
 
 nav ul {
@@ -55,9 +67,9 @@ nav ul {
   justify-content: center;
 }
 
-nav ul li {
+/* nav ul li {
   margin: 0 1rem;
-}
+} */
 
 #intro, #reviews, #upgrades {
   padding: 10px;
@@ -127,7 +139,7 @@ nav ul li {
 
 .upgrade-item{
   background: cornflowerblue;
-  border: solid black 1px;
+  border: solid #333 1px;
   padding: 10px;
   height: 100px;
 }
@@ -136,6 +148,41 @@ footer{
   padding: 10px;
 }
 
+/* clasification page css */
+#inv-display{
+  padding: 0;
+}
+#inv-display li{
+  list-style: none;
+  margin: 15px 15px;
+  border: solid .5px #333;
+  padding: 10px;
+  border-radius: 5px;
+}
+#inv-display li img{
+  width: 100%;
+}
+.namePrice hr{
+  margin: 0;
+}
+.namePrice h2{
+  margin: 5px 0;
+}
+.namePrice a{
+  color: #333;
+}
+
+#error404 img{
+width: 100%;
+}
+.error-title{
+  position: absolute;
+  top: 15%;
+  left: 10%;
+}
+.error-message{
+  text-align: center;
+}
 
 @media screen and (min-width: 768px) {
   #feature-car {
@@ -196,5 +243,13 @@ footer{
   }
   main{
     margin-bottom: 20px;
+  }
+  #inv-display{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .error-title{
+    position: relative;
+    margin: 10px 0 0 0;
   }
 }

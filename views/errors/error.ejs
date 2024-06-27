@@ -1,0 +1,11 @@
+<% if (title) { %>
+    <h1 class="error-title"><%= title %></h1>
+<% } %>
+<div id="error404">
+    <picture>
+        <source media="(min-width: 768px)" srcset="/images/errors/4016724_232.jpeg">
+        <img src="/images/errors/4016724_232.jpeg" alt="error404">
+    </picture>
+</div>
+
+<p class="error-message"> <%- message %> </p>
