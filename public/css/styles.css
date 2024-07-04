@@ -183,6 +183,55 @@ width: 100%;
 .error-message{
   text-align: center;
 }
+.vehicle-detail{
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  margin: 0 20px;
+  gap: 10px;
+  align-items: center;
+  /* border: solid 1px #333; */
+  border-radius: 5px;
+  padding: 10px;
+  background-color: aliceblue;
+}
+.vehicle-detail p{
+  margin-bottom: 10px;
+}
+.vehicle-image{
+  width: 100%;
+  /* background-color: #fff; */
+}
+.vehicle-detail img{
+  width: 100%;
+}
+.detailtitle{
+  text-align: center;
+  font-size: 45px;
+  margin: 20px;
+}
+.titlediv{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: rgba(217, 251, 251, 0.544);
+}
+.titlediv p{
+  font-size: 25px;
+}
+.vehicle-color {
+  font-weight: bold;
+}
+
+.color-box {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #000;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
 
 @media screen and (min-width: 768px) {
   #feature-car {

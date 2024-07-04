@@ -60,6 +60,36 @@ Util.buildClassificationGrid = async function(data){
     return grid
   }
 
+
+  /* *************
+  * Build the html for detai view
+  * ************* */
+
+  Util.buildInventoryDetailView = function(data){
+    const price = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(data.inv_price);
+    const mileage = new Intl.NumberFormat('en-US').format(data.inv_miles);
+  
+    return `
+    <h1 class="detailtitle">${data.inv_make} ${data.inv_model}</h1>
+    <div class="vehicle-detail">
+     <div class="vehicle-image">
+      <img src="${data.inv_image}" alt="${data.inv_make} ${data.inv_model}"> </div>
+      <div class="detaildiv">
+      <div class="titlediv">
+     
+      <p><strong>Year:</strong> ${data.inv_year}</p> 
+      <p><strong>Price:</strong> ${price}</p> </div>
+      <p><strong>Mileage:</strong> ${mileage} miles</p>
+      <p><strong>Description:</strong> ${data.inv_description}</p>
+      <p><strong>Color:</strong>  ${data.inv_color}
+        <span class="color-box" style="background-color: ${data.inv_color};"></span>
+      </p>
+      <p><strong>Classification:</strong> ${data.classification_name}</p> </div>
+    </div>
+  `;
+};
+  
+
   /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
