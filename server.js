@@ -18,6 +18,7 @@ const errorRoutes = require("./routes/error")
 const session = require("express-session")
 const pool = require('./database/')
 const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
 
 
 /* ***********************
@@ -45,24 +46,30 @@ app.use(function(req, res, next){
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
+app.use(cookieParser())
+
+app.use(utilities.checkJWTToken)
+app.use(utilities.checkLoginStatus)
+
 
 /* ***********************
  * View Engine and Templates
  *************************/
 app.set("view engine", "ejs")
 app.use(expressLayouts)
-app.set("layout", "./layouts/layout") // not at views root
+app.set("layout", "./layouts/layout") 
 
 /* ***********************
  * Routes
  *************************/
 app.use(static)
-// Index route
 
+// Index route
 app.get("/", utilities.handleErrors(baseController.buildHome))
+
 // Inventory routes
 app.use("/inv", inventoryRoute)
-app.use("/account", accountRoutes); 
+app.use("/account", accountRoutes);
 app.use("/", errorRoutes);
 
 // File Not Found Route - must be last route in list

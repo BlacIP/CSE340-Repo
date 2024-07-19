@@ -20,9 +20,31 @@ router.post(
     "/login",
     regValidate.loginRules(),
     regValidate.checkLoginData,
-    (req, res) => {
-      res.status(200).send('login process')
-    }
+    utilities.handleErrors(accountController.accountLogin)
   )
+
+// Add a "GET" route for the account management view
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement))
+
+// Route to update account information view
+router.get("/update/:accountId", utilities.checkLogin, utilities.handleErrors(accountController.buildUpdateAccount))
+
+// Route to process account information update
+router.post("/update", 
+  utilities.checkLogin,
+  regValidate.updateAccountRules(),
+  regValidate.checkUpdateData,
+  utilities.handleErrors(accountController.updateAccount))
+
+// Route to process password change
+router.post("/change-password",
+  utilities.checkLogin,
+  regValidate.passwordChangeRules(),
+  regValidate.checkPasswordData,
+  utilities.handleErrors(accountController.changePassword))
+
+
+// Route to handle logout
+router.get("/logout", utilities.handleErrors(accountController.logout))
 
 module.exports = router;

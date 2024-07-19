@@ -1,4 +1,4 @@
-<div class="Inventory-maanagement">
+<div class="Inventory-maanagement login login-form">
   <h1>Inventory Management</h1>
   <% if (message) { %>
     <p class="flash-message"><%= message %></p>
@@ -7,4 +7,11 @@
     <li><a href="/inv/add-classification">Add New Classification</a></li>
     <li><a href="/inv/add-inventory">Add New Inventory</a></li>
   </ul>
+
+  <h2>Manage Inventory</h2>
+  <p class="drop-note">select a classification from the list to see the items belonging to the classification.</p>
+  <%- classificationSelect%>
+  <table id="inventoryDisplay"></table>
+  <noscript>JavaScript must be enabled to use this page.</noscript>
 </div>
+<script src="/js/inventory.js"></script>

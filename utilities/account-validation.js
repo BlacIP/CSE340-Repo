@@ -55,6 +55,38 @@ validate.registationRules = () => {
     ]
   }
 
+  /* **********************************
+ *  Update Account Data Validation Rules
+ * ********************************* */
+validate.updateAccountRules = () => {
+  return [
+    // firstname is required and must be string
+    body("account_firstname")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Please provide a first name."), 
+
+    // lastname is required and must be string
+    body("account_lastname")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 2 })
+      .withMessage("Please provide a last name."),
+
+    // valid email is required and cannot already exist in the DB
+    body("account_email")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isEmail()
+      .normalizeEmail()
+      .withMessage("A valid email is required.")
+  ]
+}
+
   /* ******************************
  * Check data and return errors or continue to registration
  * ***************************** */
@@ -76,6 +108,67 @@ validate.checkRegData = async (req, res, next) => {
     }
     next()
   }
+
+  /* ******************************
+ * Check data and return errors or continue to update account
+ * ***************************** */
+validate.checkUpdateData = async (req, res, next) => {
+  const errors = validationResult(req)
+  const message = req.flash("notice")
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    res.render("account/update", {
+      title: "Update Account Information",
+      nav,
+      message,  
+      errors,
+      account: req.body
+    })
+    return
+  }
+  next()
+}
+
+
+/*  **********************************
+ *  Password Change Validation Rules
+ * ********************************* */
+validate.passwordChangeRules = () => {
+  return [
+    // password is required and must be strong password
+    body("account_password")
+      .trim()
+      .notEmpty()
+      .isStrongPassword({
+        minLength: 12,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage("Password does not meet requirements."),
+  ]
+}
+
+/* ******************************
+ * Check data and return errors or continue to change password
+ * ***************************** */
+validate.checkPasswordData = async (req, res, next) => {
+  const errors = validationResult(req)
+  const message = req.flash("notice")
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    res.render("account/update", {
+      title: "Update Account Information",
+      nav,
+      message,  
+      errors,
+      account: req.body
+    })
+    return
+  }
+  next()
+}
 
   /*  **********************************
   *  Login Data Validation Rules

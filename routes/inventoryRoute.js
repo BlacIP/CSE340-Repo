@@ -13,25 +13,48 @@ router.get("/detail/:inventoryId", utilities.handleErrors(invController.buildByI
 // Route to management view
 router.get("/", utilities.handleErrors(invController.buildManagementView));
 
-// Route to add classification view
-router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification));
+// Route to add classification view (requires Admin or Employee)
+router.get("/add-classification", utilities.checkAdminOrEmployee, utilities.handleErrors(invController.buildAddClassification));
 
-// Route to handle add classification form submission
+// Route to handle add classification form submission (requires Admin or Employee)
 router.post("/add-classification",
+  utilities.checkAdminOrEmployee,
   validation.classificationRules(),
   validation.checkClassificationData,
   utilities.handleErrors(invController.addClassification)
 );
 
-// Route to add inventory view
-router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory));
+// Route to add inventory view (requires Admin or Employee)
+router.get("/add-inventory", utilities.checkAdminOrEmployee, utilities.handleErrors(invController.buildAddInventory));
 
-// Route to handle add inventory form submission
+// Route to handle add inventory form submission (requires Admin or Employee)
 router.post("/add-inventory",
+  utilities.checkAdminOrEmployee,
   validation.inventoryRules(),
   validation.checkInventoryData,
   utilities.handleErrors(invController.addInventory)
 );
 
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+
+// Route to edit inventory view (requires Admin or Employee)
+router.get("/edit/:inventory_id", utilities.checkAdminOrEmployee, utilities.handleErrors(invController.buildEditInventory))
+
+// Route to handle update inventory form submission (requires Admin or Employee)
+router.post("/update",
+  utilities.checkAdminOrEmployee,
+  validation.inventoryRules(),
+  validation.checkUpdateData, 
+  utilities.handleErrors(invController.updateInventory)
+)
+
+// Route to handle delete confirmation view (requires Admin or Employee)
+router.get("/delete/:inventory_id", utilities.checkAdminOrEmployee, utilities.handleErrors(invController.buildDeleteConfirmation))
+
+// Route to handle delete inventory form submission (requires Admin or Employee)
+router.post("/delete",
+  utilities.checkAdminOrEmployee,
+  utilities.handleErrors(invController.deleteInventory)
+)
 
 module.exports = router;

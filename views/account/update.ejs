@@ -1,0 +1,60 @@
+<div class="login-form">
+    <h1><%= title %></h1>
+    <% if (message) { %>
+        <p class="flash-message"><%= message %></p>
+      <% } %>
+
+      
+      <div id="update-info-form" class="form-section">
+        <form action="/account/update" method="POST" class="login">
+            <input type="hidden" name="account_id" value="<%= account.account_id %>">
+            
+            <label for="account_firstname">First Name:</label>
+            <input type="text" id="account_firstname" name="account_firstname" value="<%= account.account_firstname %>" required>
+          
+            <label for="account_lastname">Last Name:</label>
+            <input type="text" id="account_lastname" name="account_lastname" value="<%= account.account_lastname %>" required>
+          
+            <label for="account_email">Email:</label>
+            <input type="email" id="account_email" name="account_email" value="<%= account.account_email %>" required>
+          
+            <button type="submit">Update Account</button>
+        </form>
+      </div>
+      
+      <div id="change-password-form" class="form-section" >
+        <form action="/account/change-password" method="POST" class="login">
+            <input type="hidden" name="account_id" value="<%= account.account_id %>">
+            
+            <label for="account_password">New Password:</label>
+            <input type="password" id="account_password" name="account_password" required>
+          
+            <button type="submit">Change Password</button>
+          </form>
+      </div>
+      <div class="form-switch switch">
+        <button id="update-info-btn" style="display: none;">Update Account Information</button>
+        <button id="change-password-btn">Change Password</button>
+      </div>
+</div>
+
+<% if (errors) { %>
+    <input type="hidden" id="hasErrors" value="true">
+  <% } %>
+  
+  <!-- Modal for errors -->
+  <div id="errorModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <ul>
+        <% if (errors) { %>
+          <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+          <% }) %>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+  
+  <script src="/js/account.js"></script>
+  
