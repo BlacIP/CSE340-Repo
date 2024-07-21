@@ -11,7 +11,7 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 router.get("/detail/:inventoryId", utilities.handleErrors(invController.buildByInventoryId));
 
 // Route to management view
-router.get("/", utilities.handleErrors(invController.buildManagementView));
+router.get("/", utilities.checkAdminOrEmployee, utilities.handleErrors(invController.buildManagementView));
 
 // Route to add classification view (requires Admin or Employee)
 router.get("/add-classification", utilities.checkAdminOrEmployee, utilities.handleErrors(invController.buildAddClassification));
@@ -56,5 +56,15 @@ router.post("/delete",
   utilities.checkAdminOrEmployee,
   utilities.handleErrors(invController.deleteInventory)
 )
+
+// Route to approval view (requires Admin or Employee)
+router.get("/approval", utilities.checkAdminOrEmployee, utilities.handleErrors(invController.buildApprovalView));
+
+// Route to approve classification (requires Admin or Employee)
+router.post("/approve-classification", utilities.checkAdminOrEmployee, utilities.handleErrors(invController.approveClassification));
+
+// Route to approve inventory (requires Admin or Employee)
+router.post("/approve-inventory", utilities.checkAdminOrEmployee, utilities.handleErrors(invController.approveInventory));
+
 
 module.exports = router;

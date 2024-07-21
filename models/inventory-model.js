@@ -4,6 +4,13 @@ const pool = require("../database/")
  *  Get all classification data
  * ************************** */
 async function getClassifications(){
+  return await pool.query("SELECT * FROM public.classification WHERE classification_approved = true ORDER BY classification_name")
+}
+
+/* ***************************
+ *  Get all classification data
+ * ************************** */
+async function getListClassifications(){
   return await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
 }
 
@@ -14,10 +21,10 @@ async function getInventoryByClassificationId(classification_id) {
     try {
       const data = await pool.query(
         `SELECT * FROM public.inventory AS i 
-        JOIN public.classification AS c 
-        ON i.classification_id = c.classification_id 
-        WHERE i.classification_id = $1`,
-        [classification_id]
+      JOIN public.classification AS c 
+      ON i.classification_id = c.classification_id 
+      WHERE i.classification_id = $1 AND i.inv_approved = true`,
+      [classification_id]
       )
       return data.rows
     } catch (error) {
@@ -128,7 +135,84 @@ async function deleteInventoryItem(inv_id) {
   }
 }
 
+/* *****************************
+ *  Get unapproved classifications
+ * *************************** */
+async function getUnapprovedClassifications() {
+  try {
+    const sql = "SELECT * FROM classification WHERE classification_approved = false"
+    const data = await pool.query(sql)
+    return data.rows
+  } catch (error) {
+    console.error("getUnapprovedClassifications error: " + error)
+    return []
+  }
+}
 
-module.exports = {getClassifications, getInventoryByClassificationId, getInventoryByInventoryId, addClassification, addInventory, updateInventory, deleteInventoryItem};
+/* ***************************
+ *  Get unapproved inventory items
+ * ************************** */
+async function getUnapprovedInventory() {
+  try {
+    const query = `
+      SELECT i.*, c.classification_name 
+      FROM public.inventory AS i 
+      JOIN public.classification AS c 
+      ON i.classification_id = c.classification_id 
+      WHERE i.inv_approved = false`;
+    const data = await pool.query(query);
+    return data.rows;
+  } catch (error) {
+    console.error("getUnapprovedInventory error " + error);
+  }
+}
+
+/* *****************************
+ *  Approve classification
+ * *************************** */
+async function approveClassification(classification_id, account_id) {
+  try {
+    const sql = `UPDATE classification 
+                 SET classification_approved = true, account_id = $2, classification_approval_date = CURRENT_TIMESTAMP 
+                 WHERE classification_id = $1 RETURNING *`
+    const data = await pool.query(sql, [classification_id, account_id])
+    return data.rows[0]
+  } catch (error) {
+    console.error("approveClassification error: " + error)
+    return null
+  }
+}
+
+/* *****************************
+ *  Approve inventory item
+ * *************************** */
+async function approveInventory(inv_id, account_id) {
+  try {
+    const sql = `UPDATE inventory 
+                 SET inv_approved = true, account_id = $2, inv_approved_date = CURRENT_TIMESTAMP 
+                 WHERE inv_id = $1 RETURNING *`
+    const data = await pool.query(sql, [inv_id, account_id])
+    return data.rows[0]
+  } catch (error) {
+    console.error("approveInventory error: " + error)
+    return null
+  }
+}
+
+
+
+module.exports = {getClassifications,
+  getListClassifications,
+  getInventoryByClassificationId, 
+  getInventoryByInventoryId,
+  addClassification, 
+  addInventory, 
+  updateInventory, 
+  deleteInventoryItem,
+  getUnapprovedClassifications,
+  getUnapprovedInventory,
+  approveClassification,
+  approveInventory
+};
 
 

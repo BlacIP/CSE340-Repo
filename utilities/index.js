@@ -97,7 +97,7 @@ Util.buildClassificationGrid = async function(data){
  * @returns {Promise<string>} - HTML string for the dropdown list
  */
 Util.buildClassificationList = async function (selectedId = null) {
-  let data = await invModel.getClassifications()
+  let data = await invModel.getListClassifications()
   let classificationList = '<select name="classification_id" id="classificationList" required>'
   classificationList += "<option value=''>Choose a Classification &#9662;</option>"
   data.rows.forEach((row) => {
@@ -142,27 +142,29 @@ Util.checkJWTToken = (req, res, next) => {
   }
  }
 
-
- /* ****************************************
+/* ****************************************
  * Middleware to check login status
  **************************************** */
 Util.checkLoginStatus = (req, res, next) => {
-  const token = req.cookies.jwt
+  const token = req.cookies.jwt;
   if (token) {
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decodedToken) => {
       if (err) {
-        res.locals.account = null
-        next()
+        res.locals.account = null;
+        res.locals.loggedin = false;
+        next();
       } else {
-        res.locals.account = decodedToken
-        next()
+        res.locals.account = decodedToken;
+        res.locals.loggedin = true;
+        next();
       }
-    })
+    });
   } else {
-    res.locals.account = null
-    next()
+    res.locals.account = null;
+    res.locals.loggedin = false;
+    next();
   }
-}
+};
 
  /* ****************************************
  *  Check Login
@@ -180,12 +182,12 @@ Util.checkLoginStatus = (req, res, next) => {
  * Middleware to check account type
  **************************************** */
 Util.checkAdminOrEmployee = (req, res, next) => {
-  if (res.locals.accountData && (res.locals.accountData.account_type === 'Admin' || res.locals.accountData.account_type === 'Employee')) {
-    next()
+  if (res.locals.account && (res.locals.account.account_type === 'Admin' || res.locals.account.account_type === 'Employee')) {
+    next();
   } else {
-    req.flash("notice", "You do not have the necessary permissions to access this page.")
-    return res.redirect("/account/login")
+    req.flash("notice", "You do not have the necessary permissions to access this page.");
+    return res.redirect("/account/login");
   }
-}
+};
 
 module.exports = Util

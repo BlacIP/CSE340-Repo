@@ -1,0 +1,77 @@
+<div class="approval login-form login">
+    <h1><%= title %></h1>
+    <% if (message) { %>
+        <div id="flashModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p class="flash-message"><%= message %></p>
+            </div>
+        </div>
+    <% } %>
+    <% if (errors) { %>
+        <ul class="notice">
+            <% errors.array().forEach(error => { %>
+                <li><%= error.msg %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+
+    <section>
+        <h2>Unapproved Classifications</h2>
+        <% if (classifications.length > 0) { %>
+            <ul>
+                <% classifications.forEach(classification => { %>
+                    <li>
+                        <span><%= classification.classification_name %></span>
+                        <button class="details-btn" data-id="classification-<%= classification.classification_id %>">View Details</button>
+                        <div id="classification-<%= classification.classification_id %>" class="details-content" style="display:none;">
+                            <p>Name: <%= classification.classification_name %></p>
+                            <!-- Add more classification details here -->
+                        </div>
+                        <form action="/inv/approve-classification" method="post" style="display:inline;">
+                            <input type="hidden" name="classification_id" value="<%= classification.classification_id %>">
+                            <button type="submit">Approve</button>
+                        </form>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>No classifications pending approval.</p>
+        <% } %>
+    </section>
+
+    <section>
+        <h2>Unapproved Inventory Items</h2>
+        <% if (inventory.length > 0) { %>
+            <ul>
+                <% inventory.forEach(item => { %>
+                    <li>
+                        <span><%= item.inv_make %> <%= item.inv_model %></span>
+                        <button class="details-btn" data-id="inventory-<%= item.inv_id %>">View Details</button>
+                        <div id="inventory-<%= item.inv_id %>" class="details-content" style="display:none;">
+                            <p>Make: <%= item.inv_make %></p>
+                            <p>Model: <%= item.inv_model %></p>
+                            <p>Year: <%= item.inv_year %></p>
+                            <p>Description: <%= item.inv_description %></p>
+                            <p>Price: <%= item.inv_price %></p>
+                            <p>Miles: <%= item.inv_miles %></p>
+                            <p>Color: <%= item.inv_color %></p>
+                            <p>Classification: <%= item.classification_name %></p>
+                            <!-- Add more inventory details here -->
+                        </div>
+                        <form action="/inv/approve-inventory" method="post" style="display:inline;">
+                            <input type="hidden" name="inv_id" value="<%= item.inv_id %>">
+                            <button type="submit">Approve</button>
+                        </form>
+                        <form action="/inv/edit/<%= item.inv_id %>" method="get" style="display:inline;">
+                            <button type="submit">Edit</button>
+                        </form>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>No inventory items pending approval.</p>
+        <% } %>
+    </section>
+    <script src="/js/approval.js"></script>
+</div>

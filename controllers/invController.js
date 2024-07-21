@@ -270,5 +270,52 @@ invCont.deleteInventory = async function (req, res, next) {
   }
 }
 
+/* ***************************
+ *  Build approval view
+ * ************************** */
+invCont.buildApprovalView = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const classifications = await invModel.getUnapprovedClassifications()
+  const inventory = await invModel.getUnapprovedInventory()
+  res.render("inventory/approval", {
+    title: "Approve Items",
+    nav,
+    message: req.flash("notice"),
+    classifications,
+    inventory,
+    errors: null
+  })
+}
+
+/* ***************************
+ *  Approve classification
+ * ************************** */
+invCont.approveClassification = async function (req, res, next) {
+  const classification_id = req.body.classification_id
+  const account_id = res.locals.account.account_id
+  const result = await invModel.approveClassification(classification_id, account_id)
+  if (result) {
+    req.flash("notice", "Classification approved successfully.")
+  } else {
+    req.flash("notice", "Classification approval failed.")
+  }
+  res.redirect("/inv/approval")
+}
+
+/* ***************************
+ *  Approve inventory
+ * ************************** */
+invCont.approveInventory = async function (req, res, next) {
+  const inv_id = req.body.inv_id
+  const account_id = res.locals.account.account_id
+  const result = await invModel.approveInventory(inv_id, account_id)
+  if (result) {
+    req.flash("notice", "Inventory item approved successfully.")
+  } else {
+    req.flash("notice", "Inventory item approval failed.")
+  }
+  res.redirect("/inv/approval")
+}
+
 
 module.exports = invCont

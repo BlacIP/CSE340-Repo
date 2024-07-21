@@ -414,6 +414,99 @@ width: 100%;
   display: none;
 }
 
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.Inventory-maanagement h2{
+  margin-bottom: 5px;
+  text-align: center;
+}
+.Inventory-maanagement{
+  padding: 10px;
+}
+.approval{
+  padding: 10px;
+}
+
+.approval ul{
+  list-style-type: none;
+  padding: 0;
+}
+.details-btn{
+  border: 0;
+  color: cornflowerblue;
+}
+.details-content p{
+  margin-bottom: 5px;
+}
+.details-content p::before{
+  content: "\2022 "; 
+  color: black; 
+  margin-right: 5px;
+}
+.details-content{
+  margin-top: 10px;
+}
+
+.approval span {
+  color: #333;
+  font-size: large;
+  font-weight: bold;
+}
+
+.approval button{
+  font-size: medium;
+}
+
+.table{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+table {
+  width: 100%;
+  margin: auto;
+  border-collapse: collapse;
+}
+
+
+th, td {
+  padding: 10px;
+  text-align: center;
+}
+
+thead th {
+  background-color: #000000;
+  color: white;
+  text-align: center;
+  font-size: 1.2em;
+}
+thead th[colspan="4"] {
+  padding: 15px;
+}
+thead th:nth-child(n+2){
+  background-color: #313131;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #ddd;
+}
+
+tbody tr:hover {
+  background-color: #ddd;
+}
+
+tbody td:first-child {
+  font-weight: bold;
+}
+
 @media screen and (min-width: 768px) {
   #feature-car {
     flex-direction: row;
