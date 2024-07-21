@@ -66,5 +66,12 @@ router.post("/approve-classification", utilities.checkAdminOrEmployee, utilities
 // Route to approve inventory (requires Admin or Employee)
 router.post("/approve-inventory", utilities.checkAdminOrEmployee, utilities.handleErrors(invController.approveInventory));
 
+// Route to reject classification (requires Admin or Employee)
+router.post("/reject-classification", utilities.checkAdminOrEmployee, utilities.handleErrors(invController.rejectClassification))
+
+// Route to reject inventory (requires Admin or Employee)
+router.post("/reject-inventory", utilities.checkAdminOrEmployee, utilities.handleErrors(invController.rejectInventory))
+
+
 
 module.exports = router;

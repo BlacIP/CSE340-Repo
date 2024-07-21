@@ -123,11 +123,25 @@ async function updateInventory(
 }
 
 /* ***************************
+ *  Delete Classification
+ * ************************** */
+async function deleteClassification(classification_id) {
+  try {
+    const sql = 'DELETE FROM public.classification WHERE classification_id = $1 RETURNING *'
+    const data = await pool.query(sql, [classification_id])
+    return data
+  } catch (error) {
+    new Error("Delete Classification Error")
+  }
+}
+
+
+/* ***************************
  *  Delete Inventory Item
  * ************************** */
 async function deleteInventoryItem(inv_id) {
   try {
-    const sql = 'DELETE FROM public.inventory WHERE inv_id = $1'
+    const sql = 'DELETE FROM public.inventory WHERE inv_id = $1 RETURNING *'
     const data = await pool.query(sql, [inv_id])
     return data
   } catch (error) {
@@ -200,6 +214,23 @@ async function approveInventory(inv_id, account_id) {
 }
 
 
+/* ***************************
+ *  Get unapproved inventory items by classification_id
+ * ************************** */
+async function getUnapprovedInventoryByClassificationId(classification_id) {
+  try {
+    const query = `
+      SELECT * FROM public.inventory 
+      WHERE classification_id = $1 AND inv_approved = false`;
+    const data = await pool.query(query, [classification_id]);
+    return data.rows;
+  } catch (error) {
+    console.error("getUnapprovedInventoryByClassificationId error " + error);
+    return []
+  }
+}
+
+
 
 module.exports = {getClassifications,
   getListClassifications,
@@ -207,12 +238,14 @@ module.exports = {getClassifications,
   getInventoryByInventoryId,
   addClassification, 
   addInventory, 
-  updateInventory, 
+  updateInventory,
+  deleteClassification, 
   deleteInventoryItem,
   getUnapprovedClassifications,
   getUnapprovedInventory,
   approveClassification,
-  approveInventory
+  approveInventory,
+  getUnapprovedInventoryByClassificationId
 };
 
 

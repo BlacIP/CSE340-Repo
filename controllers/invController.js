@@ -317,5 +317,45 @@ invCont.approveInventory = async function (req, res, next) {
   res.redirect("/inv/approval")
 }
 
+/* ***************************
+ *  Reject classification
+ * ************************** */
+invCont.rejectClassification = async function (req, res, next) {
+  const classification_id = req.body.classification_id
+  
+  // Check if there are any unapproved inventory items using this classification
+  const inventoryUsingClassification = await invModel.getUnapprovedInventoryByClassificationId(classification_id)
+  
+  if (inventoryUsingClassification.length > 0) {
+    req.flash("notice", "Classification cannot be rejected as it is referenced by unapproved inventory items. Please update those items first.")
+    return res.redirect("/inv/approval")
+  }
+  
+  const result = await invModel.deleteClassification(classification_id)
+  if (result && result.rowCount) {
+    req.flash("notice", "Classification rejected and deleted successfully.")
+  } else {
+    req.flash("notice", "Classification rejection failed.")
+  }
+  res.redirect("/inv/approval")
+}
+
+
+/* ***************************
+ *  Reject inventory
+ * ************************** */
+invCont.rejectInventory = async function (req, res, next) {
+  const inv_id = req.body.inv_id
+  const result = await invModel.deleteInventoryItem(inv_id)
+  if (result && result.rowCount) {
+    req.flash("notice", "Inventory item rejected and deleted successfully.")
+  } else {
+    req.flash("notice", "Inventory item rejection failed.")
+  }
+  res.redirect("/inv/approval")
+}
+
+
+
 
 module.exports = invCont
